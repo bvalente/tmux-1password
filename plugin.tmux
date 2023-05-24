@@ -32,13 +32,16 @@ main() {
 
   # check for a session named op, if there is none, create one
   op=0
-  if !$(tmux has-session -t op 2> /dev/null)
+  if ! $(tmux has-session -t op 2> /dev/null)
   then
     op=$(tmux new-session -s op -n op -d -P -F '#{pane_id}')
+  else
+    op=$(tmux list-panes -s -t op -F '#{pane_id}')
   fi
 
+  # this only works if you only have two sessions
   tmux bind-key "$(options::keybinding)" \
-    run "tmux send-keys -t $op \"$CURRENT_DIR/scripts/main.sh '#{pane_id}'; tmux last-window -t 0\";tmux select-window -t $op"
+    run "tmux send-keys -t $op \"$CURRENT_DIR/scripts/main.sh '#{pane_id}'; tmux switch-client -l\"; tmux switch-client -n"
 }
 
 main "$@"
