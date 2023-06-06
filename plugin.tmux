@@ -41,7 +41,7 @@ main() {
 
   # this only works if you only have two sessions
   tmux bind-key "$(options::keybinding)" \
-    run "tmux send-keys -t $op \"$CURRENT_DIR/scripts/main.sh '#{pane_id}'; tmux switch-client -l\" ENTER; tmux switch-client -n"
+    run "tmux send-keys -t $op \"$CURRENT_DIR/scripts/main.sh '#{pane_id}'; tmux switch-client -l\" ENTER; tmux switch-client -t op"
 }
 
 main "$@"
